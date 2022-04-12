@@ -1,15 +1,15 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Jun  2 21:16:35 2021
 
-@author: Ivan
-版權屬於「行銷搬進大程式」所有，若有疑問，可聯絡ivanyang0606@gmail.com
 
-Line Bot聊天機器人
-第一章 Line Bot申請與串接
-Line Bot機器人串接與測試
-"""
-#載入LineBot所需要的套件
+
+
+
+
+
+
+
+
+
+
 from flask import Flask, request, abort
 
 from linebot import (
@@ -27,7 +27,7 @@ line_bot_api = LineBotApi('7u4CpY+aTDf9W/RPzni523xbn58K3W1TEWyT0SHqXamCq+JlCDzIA
 # 必須放上自己的Channel Secret
 handler = WebhookHandler('a11833d3e2e7dded62b45187a02eca39')
 
-line_bot_api.push_message('U7084bc0b820b41725e89e0cc5b4c30fe', TextSendMessage(text='你可以開始了'))
+line_bot_api.push_message('U7084bc0b820b41725e89e0cc5b4c30fe', TextSendMessage(text='請開始你的表演'))
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -51,8 +51,11 @@ def callback():
 ##### 基本上程式編輯都在這個function #####
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    message = TextSendMessage(text=event.message.text)
-    line_bot_api.reply_message(event.reply_token,message)
+    message = event.message.text
+    if re.match('告訴我秘密',message):
+        line_bot_api.reply_message(event.reply_token,TextSendMessage('才不告訴你哩！'))
+    else:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(message))
 
 #主程式
 import os
