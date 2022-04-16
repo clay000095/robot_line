@@ -50,13 +50,26 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     message = text=event.message.text
-    if re.match('告訴我秘密',message):
+    if re.match('哭啊',message):
         # 貼圖查詢：https://developers.line.biz/en/docs/messaging-api/sticker-list/#specify-sticker-in-message-object
         sticker_message = StickerSendMessage(
             package_id='6325',
             sticker_id='10979908'
         )
         line_bot_api.reply_message(event.reply_token, sticker_message)
+    else:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(message))
+
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    message = text=event.message.text
+    if re.match('你在哪',message):
+        # 因檔來自於VocieTube：https://tw.voicetube.com/challenges/pronunciation/20210604
+        audio_message = AudioSendMessage(
+            original_content_url='https://cdn.voicetube.com/everyday_records/5131/1622711427.mp3',
+            duration=2000
+        )
+        line_bot_api.reply_message(event.reply_token, audio_message)
     else:
         line_bot_api.reply_message(event.reply_token, TextSendMessage(message))
 #主程式
