@@ -47,19 +47,6 @@ def callback():
 
 #訊息傳遞區塊
 ##### 基本上程式編輯都在這個function #####
-@handler.add(MessageEvent, message0=TextMessage)
-def handle_message(event0):
-    message0 = text=event0.message0.text
-    if re.match('哭啊',message0):
-        # 貼圖查詢：https://developers.line.biz/en/docs/messaging-api/sticker-list/#specify-sticker-in-message-object
-        sticker_message = StickerSendMessage(
-            package_id='6325',
-            sticker_id='10979908'
-        )
-        line_bot_api.reply_message(event0.reply_token, sticker_message)
-    else:
-        line_bot_api.reply_message(event0.reply_token, TextSendMessage(message0))
-
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     message = text=event.message.text
